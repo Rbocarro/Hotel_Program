@@ -181,49 +181,51 @@ int main()
     while (isProgramRunning)
     {   
         system("cls");
-        int UserInput;
+        char UserInput;
         cout << "Hotel Program" << endl;
         cout << "Please choose an option:\n"
-            << "1. View all rooms\n"
-            << "2. Initialise guest list to empty\n"
-            << "3. Add customer to room\n"
-            << "4. Display empty Rooms\n"
-            << "5. Delete Customer from Room\n"
-            << "6. Find room from customer names\n"
-            << "7. Store Program Data into file\n"
-            << "8. Load Program Data from File\n"
-            << "9. View Rooms ordered from customer's name\n\n"
+            << "V. View all rooms\n"
+            << "I. Initialise guest list to empty\n"
+            << "A. Add customer to room\n"
+            << "E. Display empty Rooms\n"
+            << "D. Delete Customer from Room\n"
+            << "F. Find room from customer names\n"
+            << "S. Store Program Data into file\n"
+            << "L. Load Program Data from File\n"
+            << "O. View Rooms ordered from customer's name\n\n"
             << "Please Enter your Choice:";
 
-        UserInput=_getch()-48;//idk why but it seems to retunr the acii decimal vaule of numbers
-        cout << UserInput << endl;
+        //UserInput=_getch()-48;//idk why but it seems to retunr the acii decimal vaule of numbers
+        cin >> UserInput;
+        UserInput=tolower(UserInput);
+        //cout << tolower(UserInput) << endl;
         switch (UserInput)
         {
-        case 1:
+        case 'v':
             DisplayAllRooms();
             break;
-        case 2:
+        case 'i':
             Initiliaze();
             break;
-        case 3:
+        case 'a':
             AddGuest();
             break;
-        case 4:
+        case 'e':
             DisplayEmptyRooms();
             break;
-        case 5:
+        case 'd':
             RemoveGuest();
             break;
-        case 6:
+        case 'f':
             FindGuestbyName();
             break;
-        case 7:
+        case 's':
             SaveToGuestListFile();
             break;
-        case 8:
+        case 'l':
             ReadFromGuestListFile();
             break;
-        case 9:
+        case 'o':
             SortGuestByName();
             break;
 
@@ -233,7 +235,7 @@ int main()
         }
         char continuechoice;
         cout << "Perform another action?y/n:";
-        continuechoice=_getch(); cout << continuechoice;
+        cin  >> continuechoice;
         if (continuechoice != 'n')
         {
             continue;
