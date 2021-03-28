@@ -9,11 +9,11 @@ string HotelRooms[ROOM_SIZE] = {"Leo Whitefang","Ramlethal Valentine","Ky Kiske"
 
 void DisplayAllRooms()
 {   
-    cout << "Room No" << "  Guest Name" << endl;
+    cout << "Room No" << "     Guest Name" << endl;
     cout << "---------------------------" << endl;
     for (int i = 0; i <(sizeof(HotelRooms)/sizeof(HotelRooms[0])); i++) 
     {
-        cout << setw(2) <<i+1<<setw(10)<<" "<< HotelRooms[i]<<endl;
+        cout << setw(7) <<i+1<<setw(5)<<" "<< HotelRooms[i]<<endl;
     }
 }
 
@@ -29,35 +29,35 @@ void Initiliaze()
 void AddGuest()
 {   
     int userGuestRoomInput;
-    cout << "Which room do you want to add a guest in?";
+    cout << "Which room do you want to add a guest in?(0-10)";
     cin >> userGuestRoomInput;
     cin.ignore();
-    cout << "Addguest name:";
+    cout << "Add guest name:";
     getline(cin, HotelRooms[userGuestRoomInput-1]);  
 }
 
 void RemoveGuest()
 {
     int userGuestRoomInput;
-    cout << "Which room do you want vacate a guest a guest in?";
+    cout << "Which room number do you want vacate a guest a guest in?(0-10):";
     cin >> userGuestRoomInput;
     cout << "\nRemoved "<< HotelRooms[userGuestRoomInput-1]<<" From Room "<< userGuestRoomInput<<endl;
     HotelRooms[userGuestRoomInput-1] = "e";  
 }
 void DisplayEmptyRooms()
 {
-    int emptyCount=0;
-    cout << "Room No" << "  Guest Name" << endl;
+    bool emptyCount=false;
+    cout << "Room No" << "    Guest Name" << endl;
     cout << "---------------------------" << endl;
     for (int i = 0; i < (sizeof(HotelRooms) / sizeof(HotelRooms[0])); i++)
     {   
         if (HotelRooms[i] == "e")
         {
-            cout <<setw(2)<< i + 1 <<setw(10)<< " " << HotelRooms[i] << endl;
-            emptyCount++;
+            cout <<setw(7)<< i + 1 <<setw(5)<< " " << HotelRooms[i] << endl;
+            emptyCount=true;
         }
     }
-    if (emptyCount == 0)
+    if (!emptyCount)
     {
         cout << "none of the rooms are empty"<<endl;
     }
@@ -67,17 +67,23 @@ void DisplayEmptyRooms()
 void FindGuestbyName()
 {
     string guestName;
+    bool guestFound=false;
     cout << "Enter guest name to find:";
     //cin.ignore();
     getline(cin, guestName);
-    cout << "Finding"<<guestName<<endl;
+    cout << "Finding "<<guestName<<endl;
     for (int i = 0; i < (sizeof(HotelRooms) / sizeof(HotelRooms[0])); i++)
     {
         if (HotelRooms[i] == guestName)
         {
-            cout << "Guest " << HotelRooms[i] << " Found in Room: " << i<<endl;
+            cout << "Guest " << HotelRooms[i] << " Found in Room: " << i+1<<endl;
+            guestFound=true;
             
         }
+    }
+    if (!guestFound)
+    {
+        cout<< "Guest " << guestName << " could not be found  " <<endl;
     }
     
 }
@@ -85,17 +91,14 @@ void FindGuestbyName()
 void SortGuestByName()
 {
     string SortedGuestList[ROOM_SIZE][2];
-
         for (int i = 0; i < ROOM_SIZE; i++)
         {
 
             SortedGuestList[i][0] = HotelRooms[i];
             SortedGuestList[i][1] = to_string(i);;
         }
-
-
-        string tempName;
-        string tempRoomNo;
+    string tempName;
+    string tempRoomNo;
 
         for (int i = 0; i < ROOM_SIZE; i++)
         {
@@ -115,35 +118,29 @@ void SortGuestByName()
             }
         }
         cout << "Sorted Array\n";
-        cout << "Room No" << "  Guest Name" << endl;
+        cout << "Room No" << "     Guest Name" << endl;
         cout << "---------------------------" << endl;
         for (int i = 0; i < ROOM_SIZE; i++)
         {
-            cout << SortedGuestList[i][1] << "        " << SortedGuestList[i][0] << endl;
+            cout <<setw(5)<< stoi(SortedGuestList[i][1])+1 <<setw(5)<<" " << SortedGuestList[i][0] << endl;
         }
-
 }
 
 void SaveToGuestListFile()
 {
     ofstream GuestList("GuestList.txt");
-    
     string GuestName = "";
     if (GuestList.is_open())
     {
-        cout << "can Write!\n";
-
-
+        cout << "can write to file!\n";
         for(int i = 0; i < (sizeof(HotelRooms) / sizeof(HotelRooms[0])); i++)
         {
             GuestName = HotelRooms[i];
-                //GuestList>> HotelRooms[count];
-                GuestList << GuestName<<"\n";
-            
-
+            GuestList << GuestName<<"\n";
         }
-        cout << "done Write!\n";
+        cout << "done Writing to file!\n";
     }
+    else  cout << "File Write Error!\n";
 
     GuestList.close();
 }
@@ -155,33 +152,27 @@ void ReadFromGuestListFile()
    string GuestName="";
    if (GuestList.is_open())
    {
-       cout << "can read!\n";
-
-       
+       cout << "can read from file!\n";
        while (!GuestList.eof())
        {
-           //GuestList>> HotelRooms[count];
            getline(GuestList,GuestName);
            HotelRooms[count] = GuestName;
            count++;
        }
-       cout << "done read!\n";
+       cout << "done reading from file!\n";
    }
-
+   else  cout << "File Read Error!\n";
    GuestList.close();
 }
 
-
-
 int main()
-{
-    
+{    
     bool isProgramRunning=true;
 
     while (isProgramRunning)
     {   
         system("cls");
-        char UserInput;
+        char userInput, continueChoice;
         cout << "Hotel Program" << endl;
         cout << "Please choose an option:\n"
             << "V. View all rooms\n"
@@ -194,9 +185,9 @@ int main()
             << "L. Load Program Data from File\n"
             << "O. View Rooms ordered from customer's name\n\n"
             << "Please Enter your Choice:";
-        UserInput = tolower(_getch()); cout << endl;
+        userInput = tolower(_getch()); cout << endl;
         
-        switch (UserInput)
+        switch (userInput)
         {
         case 'v':
             DisplayAllRooms();
@@ -225,22 +216,16 @@ int main()
         case 'o':
             SortGuestByName();
             break;
-
         default:
             cout << "Wrong Input\n";
             break;
         }
-        char continueChoice;
         cout << "Perform another action? (press n to exit): ";
         continueChoice = tolower(_getch()); cout << endl;
         if (continueChoice != 'n')
-        {
             continue;
-        }
         else 
-        {
             isProgramRunning = false;
-        }
     }
     return(0);
 }
