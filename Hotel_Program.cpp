@@ -2,26 +2,23 @@
 #include"string"
 #include"fstream"
 #include"conio.h"
+#include"iomanip"
 using namespace std;
-
-static const int ROOM_SIZE = 10;
+static const unsigned short ROOM_SIZE = 10;
 string HotelRooms[ROOM_SIZE] = {"Leo Whitefang","Ramlethal Valentine","Ky Kiske","Millia Rage","Chipp Zanuff","Giovanna","Potemkin","Axl Low","Nagoriyuki","Faust"};
 
 void DisplayAllRooms()
 {   
-
     cout << "Room No" << "  Guest Name" << endl;
     cout << "---------------------------" << endl;
     for (int i = 0; i <(sizeof(HotelRooms)/sizeof(HotelRooms[0])); i++) 
     {
-        cout <<i<<"        "<< HotelRooms[i]<<endl;
-        
+        cout << setw(2) <<i+1<<setw(10)<<" "<< HotelRooms[i]<<endl;
     }
 }
 
 void Initiliaze()
 {
-     
     for (int i = 0; i < (sizeof(HotelRooms) / sizeof(HotelRooms[0])); i++)
     {
         HotelRooms[i] = "e";
@@ -31,17 +28,12 @@ void Initiliaze()
 
 void AddGuest()
 {   
-    //Initiliaze();
     int userGuestRoomInput;
-    string guestName;
     cout << "Which room do you want to add a guest in?";
     cin >> userGuestRoomInput;
     cin.ignore();
     cout << "Addguest name:";
-    getline(cin, HotelRooms[userGuestRoomInput]);
-    //HotelRooms[userGuestRoomInput] = guestName;
-    //cout <<"Guest:"<<guestName<<"was added in room "<<userGuestRoomInput<<endl
-       
+    getline(cin, HotelRooms[userGuestRoomInput-1]);  
 }
 
 void RemoveGuest()
@@ -49,20 +41,27 @@ void RemoveGuest()
     int userGuestRoomInput;
     cout << "Which room do you want vacate a guest a guest in?";
     cin >> userGuestRoomInput;
-    cout << "\nRemoved "<< HotelRooms[userGuestRoomInput]<<" From Room "<< userGuestRoomInput<<endl;
-    HotelRooms[userGuestRoomInput] = "e";  
+    cout << "\nRemoved "<< HotelRooms[userGuestRoomInput-1]<<" From Room "<< userGuestRoomInput<<endl;
+    HotelRooms[userGuestRoomInput-1] = "e";  
 }
 void DisplayEmptyRooms()
 {
+    int emptyCount=0;
     cout << "Room No" << "  Guest Name" << endl;
     cout << "---------------------------" << endl;
     for (int i = 0; i < (sizeof(HotelRooms) / sizeof(HotelRooms[0])); i++)
     {   
         if (HotelRooms[i] == "e")
         {
-            cout << i << "        " << HotelRooms[i] << endl;
+            cout <<setw(2)<< i + 1 <<setw(10)<< " " << HotelRooms[i] << endl;
+            emptyCount++;
         }
     }
+    if (emptyCount == 0)
+    {
+        cout << "none of the rooms are empty"<<endl;
+    }
+
 }
 
 void FindGuestbyName()
@@ -170,12 +169,13 @@ void ReadFromGuestListFile()
    }
 
    GuestList.close();
-
 }
+
+
+
 int main()
 {
     
-
     bool isProgramRunning=true;
 
     while (isProgramRunning)
@@ -194,11 +194,8 @@ int main()
             << "L. Load Program Data from File\n"
             << "O. View Rooms ordered from customer's name\n\n"
             << "Please Enter your Choice:";
-
-        //UserInput=_getch()-48;//idk why but it seems to retunr the acii decimal vaule of numbers
-        cin >> UserInput;
-        UserInput=tolower(UserInput);
-        //cout << tolower(UserInput) << endl;
+        UserInput = tolower(_getch()); cout << endl;
+        
         switch (UserInput)
         {
         case 'v':
@@ -230,13 +227,13 @@ int main()
             break;
 
         default:
-            cout << "Wrong Input";
+            cout << "Wrong Input\n";
             break;
         }
-        char continuechoice;
-        cout << "Perform another action?y/n:";
-        cin  >> continuechoice;
-        if (continuechoice != 'n')
+        char continueChoice;
+        cout << "Perform another action? (press n to exit): ";
+        continueChoice = tolower(_getch()); cout << endl;
+        if (continueChoice != 'n')
         {
             continue;
         }
