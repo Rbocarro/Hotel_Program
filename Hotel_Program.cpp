@@ -1,11 +1,12 @@
+// Hotel Program by Reuben Bocarro studnet no:17868017
 #include"iostream"
 #include"string"
 #include"fstream"
 #include"conio.h"
 #include"iomanip"
 using namespace std;
-static const unsigned short ROOM_SIZE = 10;
-string HotelRooms[ROOM_SIZE] = {"Leo Whitefang","Ramlethal Valentine","Ky Kiske","Millia Rage","Chipp Zanuff","Giovanna","Potemkin","Axl Low","Nagoriyuki","Faust"};
+static const unsigned short NO_OF_ROOMS = 10;
+string HotelRooms[NO_OF_ROOMS] = {"Leo Whitefang","Ramlethal Valentine","Ky Kiske","Millia Rage","Chipp Zanuff","Giovanna","Potemkin","Axl Low","Nagoriyuki","Faust"};
 
 void DisplayAllRooms()
 {   
@@ -29,7 +30,7 @@ void Initiliaze()
 void AddGuest()
 {   
     int userGuestRoomInput;
-    cout << "Which room do you want to add a guest in?(0-10)";
+    cout << "Which room do you want to add a guest in?(1-10)";
     cin >> userGuestRoomInput;
     cin.ignore();
     cout << "Add guest name:";
@@ -39,7 +40,7 @@ void AddGuest()
 void RemoveGuest()
 {
     int userGuestRoomInput;
-    cout << "Which room number do you want vacate a guest a guest in?(0-10):";
+    cout << "Which room number do you want vacate a guest a guest in?(1-10):";
     cin >> userGuestRoomInput;
     cout << "\nRemoved "<< HotelRooms[userGuestRoomInput-1]<<" From Room "<< userGuestRoomInput<<endl;
     HotelRooms[userGuestRoomInput-1] = "e";  
@@ -58,10 +59,7 @@ void DisplayEmptyRooms()
         }
     }
     if (!emptyCount)
-    {
         cout << "none of the rooms are empty"<<endl;
-    }
-
 }
 
 void FindGuestbyName()
@@ -82,27 +80,23 @@ void FindGuestbyName()
         }
     }
     if (!guestFound)
-    {
-        cout<< "Guest " << guestName << " could not be found  " <<endl;
-    }
-    
+        cout<< "Guest " << guestName << " could not be found  " <<endl;    
 }
 
 void SortGuestByName()
 {
-    string SortedGuestList[ROOM_SIZE][2];
-        for (int i = 0; i < ROOM_SIZE; i++)
+    string SortedGuestList[NO_OF_ROOMS][2],
+           tempName,
+           tempRoomNo;
+        for (int i = 0; i < NO_OF_ROOMS; i++)
         {
-
             SortedGuestList[i][0] = HotelRooms[i];
             SortedGuestList[i][1] = to_string(i);;
         }
-    string tempName;
-    string tempRoomNo;
-
-        for (int i = 0; i < ROOM_SIZE; i++)
+    
+        for (int i = 0; i < NO_OF_ROOMS; i++)
         {
-            for (int j = 1; j < ROOM_SIZE; j++)
+            for (int j = 1; j < NO_OF_ROOMS; j++)
             {
                 if (SortedGuestList[j - 1][0] > SortedGuestList[j][0])
                 {
@@ -120,7 +114,7 @@ void SortGuestByName()
         cout << "Sorted Array\n";
         cout << "Room No" << "     Guest Name" << endl;
         cout << "---------------------------" << endl;
-        for (int i = 0; i < ROOM_SIZE; i++)
+        for (int i = 0; i < NO_OF_ROOMS; i++)
         {
             cout <<setw(5)<< stoi(SortedGuestList[i][1])+1 <<setw(5)<<" " << SortedGuestList[i][0] << endl;
         }
@@ -173,18 +167,18 @@ int main()
     {   
         system("cls");
         char userInput, continueChoice;
-        cout << "Hotel Program" << endl;
-        cout << "Please choose an option:\n"
-            << "V. View all rooms\n"
-            << "I. Initialise guest list to empty\n"
-            << "A. Add customer to room\n"
-            << "E. Display empty Rooms\n"
-            << "D. Delete Customer from Room\n"
-            << "F. Find room from customer names\n"
-            << "S. Store Program Data into file\n"
-            << "L. Load Program Data from File\n"
-            << "O. View Rooms ordered from customer's name\n\n"
-            << "Please Enter your Choice:";
+        cout << "Hotel Program" << endl
+             << "Please choose an option:\n"
+             << "V. View all rooms\n"
+             << "I. Initialise guest list to empty\n"
+             << "A. Add customer to room\n"
+             << "E. Display empty Rooms\n"
+             << "D. Delete Customer from Room\n"
+             << "F. Find room from customer names\n"
+             << "S. Store Program Data into file\n"
+             << "L. Load Program Data from File\n"
+             << "O. View Rooms ordered from customer's name\n\n"
+             << "Please Enter your Choice:";
         userInput = tolower(_getch()); cout << endl;
         
         switch (userInput)
