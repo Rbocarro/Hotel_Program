@@ -1,4 +1,4 @@
-// Hotel Program by Reuben Bocarro studnet no:17868017
+// Hotel_Program.cpp by Reuben Bocarro studnet no:17868017
 #include"iostream"
 #include"string"
 #include"fstream"
